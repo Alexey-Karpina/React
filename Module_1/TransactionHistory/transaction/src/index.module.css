@@ -1,0 +1,19 @@
+.table {
+    width: 880px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.38);
+}
+.table_thead{
+    background-color: #00bcd4;
+    color: #ffffff;
+}
+.table_tr{
+    height: 50px;
+}  
+.table_tr:nth-child(2n){
+    background-color: #ecf2f3;
+}
+.table_tbody{
+    color: #727d87;
+}
