@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,7 +11,6 @@ import Cast from "../Cast";
 import Reviews from "../Reviews";
 
 const MovieDetails = ({ items, actors, reviews }) => {
-  console.log(items);
   const {
     poster_path,
     original_title,
@@ -29,9 +28,10 @@ const MovieDetails = ({ items, actors, reviews }) => {
   }, "");
   return (
     <>
-      <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Router>
           <div className="MainInfo">
-            <button className="goBack" type="button">
+            <button className="goBack" type="button" onClick={() => window.location.assign('/')}>
               Go Back
             </button>
             <img
@@ -60,14 +60,21 @@ const MovieDetails = ({ items, actors, reviews }) => {
                 <Link to="/movies/:id/reviews">Reviews</Link>
               </li>
             </ul>
-            <Route path="/movies/:id/cast" render={() =>{
-              return <Cast credits={actors} />;
-            }}/>
-            <Route path="/movies/:id/reviews" render={() => {
-              return <Reviews reviews={reviews} />;
-            }} />
+            <Route
+              path="/movies/:id/cast"
+              render={() => {
+                return <Cast credits={actors} />;
+              }}
+            />
+            <Route
+              path="/movies/:id/reviews"
+              render={() => {
+                return <Reviews reviews={reviews} />;
+              }}
+            />
           </div>
-      </Router>
+        </Router>
+      </Suspense>
     </>
   );
 };

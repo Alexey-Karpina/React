@@ -92,11 +92,7 @@ export default class App extends Component {
     }
     if (this.state.id !== prevState.id) {
       this.detailsMovie();
-    }
-    if (!this.state.actors.length > 0) {
       this.actorsMovie();
-    }
-    if (!this.state.reviews.length > 0) {
       this.reviewsMovie();
     }
   }
@@ -136,18 +132,21 @@ export default class App extends Component {
                 );
               }}
             />
-            <Route
-              path="/movies/:id"
-              render={() => {
-                return (
-                  <MovieDetails
-                    items={details}
-                    actors={actors}
-                    reviews={reviews}
-                  />
-                );
-              }}
-            />
+            {details && (
+              <Route
+                path="/movies/:id?"
+                render={() => {
+                  return (
+                    <MovieDetails
+                      items={details}
+                      actors={actors}
+                      reviews={reviews}
+                    />
+                  );
+                }}
+              />
+            )}
+
             {/* // <MovieList
             //   onItemClick={this.onItemClick}
             //   movies={trends}
