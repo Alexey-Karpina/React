@@ -5,17 +5,17 @@ import Item from "./item";
 
 const ItemList = ({ items, onDelete }) => {
   const elem = items.map((item) => {
-    const { id, ...itemProps } = item;
-    return (
-      <>
-        <Item {...itemProps} onDelete={() => onDelete(id)} />
-      </>
-    );
+    return <Item {...item} onDelete={() => onDelete(item.id)} />;
   });
   return (
-      <TransitionGroup>
-        <ul className="list-group">{elem}</ul>
-      </TransitionGroup>
+    <TransitionGroup
+      component="ul"
+      className="list-group"
+      childFactory={(child) => React.cloneElement(child)}
+    >
+      {elem}
+    </TransitionGroup>
+    // <ul className="list-group">{elem}</ul>
   );
 };
 
