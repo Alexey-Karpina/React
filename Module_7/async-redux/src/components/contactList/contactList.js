@@ -6,6 +6,8 @@ import  withPhonebookService  from "../hoc/withPhonebookService";
 import { fetchContacts, contactRemovedFromList } from "../../actions";
 import  compose from "../../utils/compose";
 
+import { getVisibleContacts, isContactsLoading, hasError } from '../../contacts-selectors';
+
 import Spinner from "../spinner";
 import ErrorIndicator from "../errorIndicator/errorIndicator";
 
@@ -25,15 +27,6 @@ const ContactList = ({ contacts, onDelete }) => {
     </ul>
   );
 };
-
-const getVisibleContacts = (contacts, search) => {
-  if (search) {
-    return contacts.filter((item) => {
-      return item.name.toLowerCase().indexOf(search.toLowerCase()) > -1;
-    });
-  };
-  return contacts;
-}
 
 class ContactListContainer extends Component {
   componentDidMount() {
@@ -56,9 +49,9 @@ class ContactListContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  contacts: getVisibleContacts(state.contacts, state.search),
-  loading: state.loading,
-  error: state.error,
+  contacts: getVisibleContacts(state),
+  loading: isContactsLoading(state),
+  error: hasError(state),
 });
 
 const mapDispatchToProps = (dispatch, { phonebookService }) => {
