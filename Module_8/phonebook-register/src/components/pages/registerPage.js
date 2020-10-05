@@ -6,6 +6,7 @@ class Signup extends Component {
   constructor() {
     super();
     this.state = {
+      name: "",
       email: "",
       password: "",
     };
@@ -24,6 +25,14 @@ class Signup extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h1>Sign Up For An Account</h1>
+        <label>Name</label>
+        <input
+          name="name"
+          placeholder="Name"
+          value={this.state.name}
+          onChange={this.handleChange}
+        />
+        
         <label>Email</label>
         <input
           name="email"

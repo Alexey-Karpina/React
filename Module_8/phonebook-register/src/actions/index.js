@@ -69,22 +69,47 @@ export const loginUser = (userObj) => ({
 });
 
 export const logoutUser = () => ({
-  type: 'LOGOUT_USER'
-})
+  type: "LOGOUT_USER",
+});
+
+// export const userPostFetch = (user) => {
+//   console.log(JSON.stringify({ ...user }));
+//   return (dispatch) => {
+//     return axios
+//       .post("https://goit-phonebook-api.herokuapp.com/users/signup", {
+//         data: JSON.stringify({ ...user }),
+//       })
+//       .then((resp) => resp.json())
+//       .then((data) => {
+//         if (data.message) {
+//           console.log(data.message);
+//         } else {
+//           localStorage.setItem("token", data.jwt);
+//           dispatch(loginUser(data.user));
+//         }
+//       });
+//   };
+// };
 
 export const userPostFetch = (user) => {
   return (dispatch) => {
-    return axios
-      .post(
-        "https://goit-phonebook-api.herokuapp.com/users/signup",
-        JSON.stringify({ user })
-      )
+    return fetch("https://goit-phonebook-api.herokuapp.com/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({...user})
+    })
       .then((resp) => resp.json())
       .then((data) => {
         if (data.message) {
           console.log(data.message);
         } else {
+          console.log("Data: ", data);
+          console.log("Token ", data.jwt);
           localStorage.setItem("token", data.jwt);
+          console.log("Local storage: ", localStorage.getItem("token"));
           dispatch(loginUser(data.user));
         }
       });

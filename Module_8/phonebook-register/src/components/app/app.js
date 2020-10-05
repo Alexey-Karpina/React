@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 
 import ErrorBoundry from "../errorBoundry/errorBoundry";
 import PhonebookService from "../../services/phonebook-service";
@@ -9,8 +13,6 @@ import { PhonebookServiceProvider } from "../phonebookServiceContext/phonebookSe
 import { HomePage, LoginPage, RegisterPage, UserMenu } from "../pages";
 import Header from "../header";
 import { getProfileFetch } from "../../actions";
-
-
 
 const phonebookService = new PhonebookService();
 
@@ -21,22 +23,32 @@ class App extends Component {
 
   render() {
     return (
-        <ErrorBoundry>
-          <PhonebookServiceProvider value={phonebookService}>
-            <Router>
-              <Header />
-              <Switch>
-                <Route path="/" component={HomePage} exact />
+      <ErrorBoundry>
+        <PhonebookServiceProvider value={phonebookService}>
+          <Router>
+            <Header />
+            <Switch>
+              <Route
+                path="/"
+                render={() =>
+                  !localStorage.getItem("token") ? (
+                    <RegisterPage />
+                  ) : (
+                    <HomePage />
+                  )
+                }
+                exact
+              />
 
-                <Route path="/login" component={LoginPage} />
+              <Route path="/login" component={LoginPage} />
 
-                <Route path="/register" component={RegisterPage} />
+              <Route path="/register" component={RegisterPage} />
 
-                <Route path="/user" component={UserMenu} />
-              </Switch>
-            </Router>
-          </PhonebookServiceProvider>
-        </ErrorBoundry>
+              <Route path="/user" component={UserMenu} />
+            </Switch>
+          </Router>
+        </PhonebookServiceProvider>
+      </ErrorBoundry>
     );
   }
 }
